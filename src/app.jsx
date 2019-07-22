@@ -4,7 +4,7 @@ import App from './components/App';
 
 export default (gon) => {
   render(
-    <App gon={gon}/>,
+    <App gon={gon} />,
     document.getElementById('chat'),
   );
-}
+};
