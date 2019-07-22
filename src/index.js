@@ -6,8 +6,12 @@ import '../assets/application.css';
 // import cookies from 'js-cookie';
 // import io from 'socket.io-client';
 
+import initApp from './app.jsx';
+
+
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-console.log('front');
+const gon = window.gon;
+initApp(gon);
