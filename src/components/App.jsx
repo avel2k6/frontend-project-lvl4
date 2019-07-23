@@ -1,30 +1,18 @@
 import React from 'react';
 import Channels from './Channels';
+import Messages from './Messages';
+import MessageForm from './MessageForm';
 
-// export default class App extends React.Component {
-//   constructor(props) {
-//     super(props);
-//   }
-//
-//   render() {
-//     const { gon } = this.props;
-//     const { channels } = gon;
-//     return (
-//       <div className="row">
-//         <Channels channelsList={channels} />
-//       </div>
-//     );
-//   }
-// }
-
-const App = (props) => {
-  const { gon } = props;
-  const { channels } = gon;
-  return (
-    <div className="row">
-      <Channels channelsList={channels} />
+const App = () => (
+  <div className="row">
+    <div className="col col-3">
+      <Channels />
     </div>
-  );
-};
+    <div className="col col-9">
+      <Messages />
+      <MessageForm />
+    </div>
+  </div>
+);
 
 export default App;
