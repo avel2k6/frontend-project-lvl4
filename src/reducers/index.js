@@ -103,9 +103,8 @@ const uiRenamedChannel = handleActions(
 
 const deletedChannelId = handleActions(
   {
-    [actions.toggleModalDeleteChannel](state, { payload: channelId }) {
-      return channelId || null;
-    },
+    [actions.toggleModalDeleteChannel](state, { payload: channelId }) { return channelId || null; },
+    [actions.deleteChannelSuccess]() { return null; },
   },
   null,
 );
@@ -113,6 +112,7 @@ const deletedChannelId = handleActions(
 const uiDeletedChannel = handleActions(
   {
     [actions.toggleModalDeleteChannel]({ modalWindow }) { return { modalWindow: !modalWindow }; },
+    [actions.deleteChannelSuccess]() { return { modalWindow: false }; },
   },
   { modalWindow: false },
 );
