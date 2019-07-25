@@ -80,6 +80,7 @@ const currentChannelId = handleActions(
 const uiNewChannel = handleActions(
   {
     [actions.toggleModalNewChannel]({ modalWindow }) { return { modalWindow: !modalWindow }; },
+    [actions.addChannelSuccess]() { return { modalWindow: false }; },
   },
   { modalWindow: false },
 );
