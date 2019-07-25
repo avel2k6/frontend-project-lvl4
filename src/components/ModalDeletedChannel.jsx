@@ -3,8 +3,7 @@ import { Button, Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
-const mapStateToProps = (state) => {
-  const { uiDeletedChannel, deletedChannelId } = state;
+const mapStateToProps = ({ uiDeletedChannel, deletedChannelId }) => {
   return {
     uiDeletedChannel,
     deletedChannelId,

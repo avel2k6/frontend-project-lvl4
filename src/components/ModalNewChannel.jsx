@@ -4,8 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
-const mapStateToProps = (state) => {
-  const { currentChannelId, uiNewChannel } = state;
+const mapStateToProps = ({ currentChannelId, uiNewChannel } ) => {
   return {
     currentChannelId,
     uiNewChannel,
