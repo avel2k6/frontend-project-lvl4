@@ -12,10 +12,9 @@ const messages = handleActions({
       allIds: [...initMessages.map(({ id }) => id)],
     };
   },
-  [actions.addMessageSuccess](state, { payload: message }) {
-    const { byId, allIds } = state;
+  [actions.addMessageSuccess]({ byId, allIds }, { payload: message }) {
     if (allIds.includes(message.id)) {
-      return state;
+      return { byId, allIds };
     }
     return {
       byId: { ...byId, [message.id]: message },
@@ -45,29 +44,26 @@ const channels = handleActions({
       allIds: [...initChannels.map(({ id }) => id)],
     };
   },
-  [actions.addChannelSuccess](state, { payload: { attributes: channel } }) {
-    const { byId, allIds } = state;
+  [actions.addChannelSuccess]({ byId, allIds }, { payload: { attributes: channel } }) {
     if (allIds.includes(channel.id)) {
-      return state;
+      return { byId, allIds };
     }
     return {
       byId: { ...byId, [channel.id]: channel },
       allIds: [...allIds, channel.id],
     };
   },
-  [actions.renameChannelSuccess](state, { payload: channel }) {
+  [actions.renameChannelSuccess]({ byId, allIds }, { payload: channel }) {
     const { id } = channel;
-    const { byId, allIds } = state;
     return {
       byId: { ...byId, [id]: channel },
       allIds,
     };
   },
-  [actions.deleteChannelSuccess](state, { payload: channel }) {
+  [actions.deleteChannelSuccess]({ byId, allIds }, { payload: channel }) {
     if (!channel) {
-      return state;
+      return { byId, allIds };
     }
-    const { byId, allIds } = state;
     const { id } = channel;
     return {
       byId: _.omit(byId, id),
@@ -77,15 +73,10 @@ const channels = handleActions({
 },
 { byId: {}, allIds: [] });
 
-
 const currentChannelId = handleActions(
   {
-    [actions.initChat](state, { payload: { currentChannelId: id } }) {
-      return id;
-    },
-    [actions.changeCurrentChannel](state, { payload: { id } }) {
-      return id;
-    },
+    [actions.initChat](state, { payload: { currentChannelId: id } }) { return id; },
+    [actions.changeCurrentChannel](state, { payload: { id } }) { return id; },
   },
   null,
 );
