@@ -92,16 +92,9 @@ const currentChannelId = handleActions(
 
 const uiNewChannel = handleActions(
   {
-    [actions.toggleModalNewChannel](state) {
-      const { modalWindow } = state;
-      return {
-        modalWindow: !modalWindow,
-      };
-    },
+    [actions.toggleModalNewChannel]({ modalWindow }) { return { modalWindow: !modalWindow }; },
   },
-  {
-    modalWindow: false,
-  },
+  { modalWindow: false },
 );
 
 const renamedChannelId = handleActions({
@@ -132,10 +125,7 @@ const deletedChannelId = handleActions(
 
 const uiDeletedChannel = handleActions(
   {
-    [actions.toggleModalDeleteChannel](state) {
-      const { modalWindow } = state;
-      return { modalWindow: !modalWindow };
-    },
+    [actions.toggleModalDeleteChannel]({ modalWindow }) { return { modalWindow: !modalWindow }; },
   },
   { modalWindow: false },
 );

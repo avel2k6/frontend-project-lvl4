@@ -10,7 +10,7 @@ import ModalRenamedChannel from './ModalRenamedChannel';
 import ModalDeletedChannel from './ModalDeletedChannel';
 
 const App = () => (
-  <Row className="shadow bg-white rounded h-75">
+  <Row className="shadow-lg bg-white rounded h-75">
     <Col className="col-4 bg-info text-light p-3 rounded-left">
       <Channels />
     </Col>

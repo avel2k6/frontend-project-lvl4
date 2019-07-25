@@ -43,11 +43,11 @@ class ModalRenamedChannel extends React.Component {
       <Modal show={uiRenamedChannel.modalWindow} onHide={this.handleToggleModalRenameChannel}>
         <form onSubmit={handleSubmit(this.handleRenameChannel)}>
           <Modal.Header closeButton>
-            <Modal.Title>Rename</Modal.Title>
+            <Modal.Title>Rename this channel</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <p>Woohoo</p>
-            <Field name="channelName" required disabled={submitting} component="input" type="text" />
+            <p>You are going to rename channel</p>
+            <Field name="channelName" className="w-100" required disabled={submitting} component="input" type="text" />
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleToggleModalRenameChannel}>

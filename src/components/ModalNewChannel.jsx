@@ -37,18 +37,18 @@ class ModalNewChannel extends React.Component {
       <Modal show={uiNewChannel.modalWindow} onHide={this.handleToggleModalNewChannel}>
         <Form onSubmit={handleSubmit(this.handleAddChannel)}>
           <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
+            <Modal.Title>New channel</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <p>Woohoo</p>
-            <Field name="channelName" required disabled={submitting} component="input" type="text" />
+            <p>You are going to add new channel</p>
+            <Field name="channelName" className="w-100" required disabled={submitting} component="input" type="text" />
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleToggleModalNewChannel}>
               Close
             </Button>
-            <Button variant="primary" type="submit">
-              Save Changes
+            <Button variant="info" type="submit">
+              Add new channel
             </Button>
           </Modal.Footer>
         </Form>

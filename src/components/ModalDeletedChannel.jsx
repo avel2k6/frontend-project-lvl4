@@ -40,13 +40,13 @@ class ModalDeletedChannel extends React.Component {
           <Modal.Title>Delete</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Delete this?
+          Delete this channel?
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={this.handleToggleModalDeleteChannel}>
               Close
           </Button>
-          <Button variant="primary" onClick={this.handleDeleteChannel}>
+          <Button variant="danger" onClick={this.handleDeleteChannel}>
               Delete
           </Button>
         </Modal.Footer>
