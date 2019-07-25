@@ -13,9 +13,7 @@ const messages = handleActions({
     };
   },
   [actions.addMessageSuccess]({ byId, allIds }, { payload: message }) {
-    if (allIds.includes(message.id)) {
-      return { byId, allIds };
-    }
+    if (allIds.includes(message.id)) { return { byId, allIds }; }
     return {
       byId: { ...byId, [message.id]: message },
       allIds: [...allIds, message.id],
@@ -45,9 +43,7 @@ const channels = handleActions({
     };
   },
   [actions.addChannelSuccess]({ byId, allIds }, { payload: { attributes: channel } }) {
-    if (allIds.includes(channel.id)) {
-      return { byId, allIds };
-    }
+    if (allIds.includes(channel.id)) { return { byId, allIds }; }
     return {
       byId: { ...byId, [channel.id]: channel },
       allIds: [...allIds, channel.id],
