@@ -65,11 +65,9 @@ export const deleteChannel = ({ id }) => async (dispatch) => {
   }
 };
 
-export const listenDeleteChannel = (dispatch) => {
-  io().on('removeChannel', ({ data }) => {
-    dispatch(deleteChannelSuccess(data));
-  });
-};
+export const listenDeleteChannel = dispatch => io().on('removeChannel', ({ data }) => {
+  dispatch(deleteChannelSuccess(data));
+});
 
 export const renameChannel = ({ name, id }) => async (dispatch) => {
   const url = routes.channelPath(id);
@@ -92,11 +90,9 @@ export const renameChannel = ({ name, id }) => async (dispatch) => {
   }
 };
 
-export const listenRenameChannel = (dispatch) => {
-  io().on('renameChannel', ({ data: { attributes } }) => {
-    dispatch(renameChannelSuccess(attributes));
-  });
-};
+export const listenRenameChannel = dispatch => io().on('renameChannel', ({ data: { attributes } }) => {
+  dispatch(renameChannelSuccess(attributes));
+});
 
 export const addChannel = channelName => async (dispatch) => {
   const url = routes.channelsPath();
@@ -118,11 +114,9 @@ export const addChannel = channelName => async (dispatch) => {
   }
 };
 
-export const listenNewChannel = (dispatch) => {
-  io().on('newChannel', ({ data }) => {
-    dispatch(addChannelSuccess(data));
-  });
-};
+export const listenNewChannel = dispatch => io().on('newChannel', ({ data }) => {
+  dispatch(addChannelSuccess(data));
+});
 
 export const addMessage = message => async (dispatch) => {
   const { channel } = message;
@@ -146,13 +140,10 @@ export const addMessage = message => async (dispatch) => {
   }
 };
 
-export const listenNewMessage = (dispatch) => {
-  io().on('newMessage', (response) => {
-    const { data: { attributes } } = response;
-    dispatch(addMessageSuccess(attributes));
-    const channelId = `channel-${attributes.channel}`;
-    animateScroll.scrollToBottom({
-      containerId: channelId,
-    });
+export const listenNewMessage = dispatch => io().on('newMessage', ({ data: { attributes } }) => {
+  dispatch(addMessageSuccess(attributes));
+  const channelId = `channel-${attributes.channel}`;
+  animateScroll.scrollToBottom({
+    containerId: channelId,
   });
-};
+});
