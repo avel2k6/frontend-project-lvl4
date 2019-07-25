@@ -47,10 +47,7 @@ class ModalRenamedChannel extends React.Component {
     const {
       uiRenamedChannel, submitting, pristine, handleSubmit, channels: { byId, allIds }, channelName,
     } = this.props;
-    const sameChannelNamesCount = allIds.reduce(
-      (acc, id) => ((byId[id].name === channelName) ? acc + 1 : acc),
-      0,
-    );
+    const sameChannelNamesCount = allIds.reduce((acc, id) => ((byId[id].name === channelName) ? acc + 1 : acc), 0);
     return (
       <Modal show={uiRenamedChannel.modalWindow} onHide={this.handleToggleModalRenameChannel}>
         <form onSubmit={handleSubmit(this.handleRenameChannel)}>
@@ -63,12 +60,8 @@ class ModalRenamedChannel extends React.Component {
             {sameChannelNamesCount ? <p>Write unique name</p> : null}
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={this.handleToggleModalRenameChannel}>
-              Close
-            </Button>
-            <Button variant="info" disabled={pristine || sameChannelNamesCount} type="submit">
-              Save Changes
-            </Button>
+            <Button variant="secondary" onClick={this.handleToggleModalRenameChannel}>Close</Button>
+            <Button variant="info" disabled={pristine || sameChannelNamesCount} type="submit">Save Changes</Button>
           </Modal.Footer>
         </form>
       </Modal>
