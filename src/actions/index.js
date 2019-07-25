@@ -66,8 +66,7 @@ export const deleteChannel = ({ id }) => async (dispatch) => {
 };
 
 export const listenDeleteChannel = (dispatch) => {
-  io().on('removeChannel', (response) => {
-    const { data } = response;
+  io().on('removeChannel', ({ data }) => {
     dispatch(deleteChannelSuccess(data));
   });
 };
@@ -94,8 +93,7 @@ export const renameChannel = ({ name, id }) => async (dispatch) => {
 };
 
 export const listenRenameChannel = (dispatch) => {
-  io().on('renameChannel', (response) => {
-    const { data: { attributes } } = response;
+  io().on('renameChannel', ({ data: { attributes } }) => {
     dispatch(renameChannelSuccess(attributes));
   });
 };
@@ -121,8 +119,7 @@ export const addChannel = channelName => async (dispatch) => {
 };
 
 export const listenNewChannel = (dispatch) => {
-  io().on('newChannel', (response) => {
-    const { data } = response;
+  io().on('newChannel', ({ data }) => {
     dispatch(addChannelSuccess(data));
   });
 };
