@@ -4,12 +4,10 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
-const mapStateToProps = ({ currentChannelId, uiNewChannel } ) => {
-  return {
-    currentChannelId,
-    uiNewChannel,
-  };
-};
+const mapStateToProps = ({ currentChannelId, uiNewChannel }) => ({
+  currentChannelId,
+  uiNewChannel,
+});
 
 const actionCreators = {
   toggleModalNewChannel: actions.toggleModalNewChannel,

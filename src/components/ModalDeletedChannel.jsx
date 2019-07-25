@@ -3,12 +3,10 @@ import { Button, Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 
-const mapStateToProps = ({ uiDeletedChannel, deletedChannelId }) => {
-  return {
-    uiDeletedChannel,
-    deletedChannelId,
-  };
-};
+const mapStateToProps = ({ uiDeletedChannel, deletedChannelId }) => ({
+  uiDeletedChannel,
+  deletedChannelId,
+});
 
 const actionCreators = {
   toggleModalDeleteChannel: actions.toggleModalDeleteChannel,
