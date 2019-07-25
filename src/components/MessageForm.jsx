@@ -42,10 +42,10 @@ class MessageForm extends React.Component {
           {
             userName => (
               <form className="form-inline" onSubmit={handleSubmit(this.handleAddMessage(userName))}>
-                <div className="form-group mx-3">
-                  <Field name="message" required disabled={submitting} component="input" type="text" />
+                <div className="overflow-hidden rounded border w-100 shadow-sm">
+                  <Field name="message" className="form-control border-0 w-75" required disabled={submitting} component="input" type="text" />
+                  <input type="submit" disabled={pristine} className="btn btn-info rounded-0 w-25" value="Add" />
                 </div>
-                <input type="submit" disabled={pristine} className="btn btn-primary btn-sm" value="Add" />
               </form>
             )
           }

@@ -5,12 +5,15 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, compose } from 'redux';
 import cookies from 'js-cookie';
-import faker from 'faker';
+import { internet } from 'faker';
 import reducers from './reducers';
 import App from './components/App';
 import UsernameContext from './components/UsernameContext';
 
-import { initChat, listenNewMessage } from './actions';
+
+import {
+  initChat, listenNewMessage, listenNewChannel, listenRenameChannel, listenDeleteChannel,
+} from './actions';
 
 /* eslint-disable no-underscore-dangle */
 const ext = window.__REDUX_DEVTOOLS_EXTENSION__;
@@ -36,14 +39,17 @@ const getUserName = () => {
 
   return getName()
     ? getName()
-    : setName(faker.internet.userName());
+    : setName(internet.userName());
 };
 
 export default (gon) => {
   store.dispatch(initChat(gon));
   listenNewMessage(store.dispatch);
-  const userName = getUserName();
+  listenNewChannel(store.dispatch);
+  listenRenameChannel(store.dispatch);
+  listenDeleteChannel(store.dispatch);
 
+  const userName = getUserName();
   render(
     <Provider store={store}>
       <UsernameContext.Provider value={userName}>

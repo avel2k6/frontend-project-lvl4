@@ -1,3 +1,5 @@
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
   entry: [
@@ -26,4 +28,15 @@ module.exports = {
       },
     ],
   },
+  // optimization: {
+  //   minimize: true,
+  //   removeAvailableModules: true,
+  //   mergeDuplicateChunks: true,
+  //   concatenateModules: true,
+  //   minimizer: [
+  //     new UglifyJsPlugin({
+  //       cache: true,
+  //     }),
+  //   ],
+  // },
 };
