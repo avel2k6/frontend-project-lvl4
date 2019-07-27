@@ -7,7 +7,7 @@ const mapStateToProps = (state) => {
   return {
     messages: allIds
       .map(id => byId[id])
-      .filter(message => message.channel * 1 === currentChannelId),
+      .filter(message => message.channelId === currentChannelId),
     currentChannelId,
   };
 };

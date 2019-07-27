@@ -119,8 +119,8 @@ export const listenNewChannel = dispatch => io().on('newChannel', ({ data }) => 
 });
 
 export const addMessage = message => async (dispatch) => {
-  const { channel } = message;
-  const url = routes.channelMessagesPath(channel);
+  const { channelId } = message;
+  const url = routes.channelMessagesPath(channelId);
   dispatch(addMessageRequest());
   const preparedData = qs.stringify({ data: { attributes: { ...message } } });
   try {
@@ -128,7 +128,7 @@ export const addMessage = message => async (dispatch) => {
       method: 'POST',
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       data: preparedData,
-      params: { channelId: channel },
+      params: { channelId },
       url,
     };
     const response = await retry(() => axios(axiosOptions), retryOptions);

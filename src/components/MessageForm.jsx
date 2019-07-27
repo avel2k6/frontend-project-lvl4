@@ -26,7 +26,7 @@ class MessageForm extends React.Component {
     const { addMessage, currentChannelId, reset } = this.props;
     addMessage({
       text: message,
-      channel: currentChannelId,
+      channelId: currentChannelId,
       user: userName,
     });
     reset();

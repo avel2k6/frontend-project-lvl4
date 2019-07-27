@@ -25,7 +25,7 @@ const messages = handleActions({
     }
     const { byId } = state;
     const { id } = channel;
-    const newById = _.omitBy(byId, message => message.channel * 1 === id * 1);
+    const newById = _.omitBy(byId, message => message.channelId === id);
     return {
       byId: newById,
       allIds: Object.keys(newById),
