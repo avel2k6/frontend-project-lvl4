@@ -1,9 +1,8 @@
 import React from 'react';
 // import _ from 'lodash';
-import connect from '../connect';
 import { Field, reduxForm } from 'redux-form';
+import connect from '../connect';
 import UsernameContext from './UsernameContext';
-import * as actions from '../actions';
 
 const mapStateToProps = (state) => {
   const props = {

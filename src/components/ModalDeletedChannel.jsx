@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import connect from '../connect';
-import * as actions from '../actions';
 
 const mapStateToProps = ({ uiDeletedChannel, deletedChannelId }) => ({
   uiDeletedChannel,

@@ -3,7 +3,6 @@ import {
   Button, Col, ButtonGroup,
 } from 'react-bootstrap';
 import connect from '../connect';
-import * as actions from '../actions';
 
 const mapStateToProps = (state) => {
   const { channels: { byId, allIds }, currentChannelId } = state;

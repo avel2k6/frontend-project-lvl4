@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { Field, reduxForm } from 'redux-form';
 import connect from '../connect';
-import * as actions from '../actions';
 
 const mapStateToProps = ({ currentChannelId, uiNewChannel }) => ({
   currentChannelId,
