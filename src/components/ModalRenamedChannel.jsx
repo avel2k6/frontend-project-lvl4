@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
-import { connect } from 'react-redux';
+import connect from '../connect';
 import * as actions from '../actions';
 
 const selector = formValueSelector('renameChannel');
@@ -19,13 +19,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const actionCreators = {
-  toggleModalRenameChannel: actions.toggleModalRenameChannel,
-  renameChannel: actions.renameChannel,
-};
-
-
-@connect(mapStateToProps, actionCreators)
+@connect(mapStateToProps)
 @reduxForm({ form: 'renameChannel', enableReinitialize: true })
 class ModalRenamedChannel extends React.Component {
   handleToggleModalRenameChannel = () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 // import _ from 'lodash';
-import { connect } from 'react-redux';
+import connect from '../connect';
 import { Field, reduxForm } from 'redux-form';
 import UsernameContext from './UsernameContext';
 import * as actions from '../actions';
@@ -13,13 +13,8 @@ const mapStateToProps = (state) => {
   return props;
 };
 
-const actionCreators = {
-  addMessage: actions.addMessage,
-};
-
-
 @reduxForm({ form: 'newMessage' })
-@connect(mapStateToProps, actionCreators)
+@connect(mapStateToProps)
 class MessageForm extends React.Component {
   // static contextType = UsernameContext;
   handleAddMessage = userName => ({ message }) => {

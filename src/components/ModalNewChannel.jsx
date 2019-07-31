@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { Field, reduxForm } from 'redux-form';
-import { connect } from 'react-redux';
+import connect from '../connect';
 import * as actions from '../actions';
 
 const mapStateToProps = ({ currentChannelId, uiNewChannel }) => ({
@@ -9,13 +9,8 @@ const mapStateToProps = ({ currentChannelId, uiNewChannel }) => ({
   uiNewChannel,
 });
 
-const actionCreators = {
-  toggleModalNewChannel: actions.toggleModalNewChannel,
-  addChannel: actions.addChannel,
-};
-
 @reduxForm({ form: 'newChannel' })
-@connect(mapStateToProps, actionCreators)
+@connect(mapStateToProps)
 class ModalNewChannel extends React.Component {
   handleToggleModalNewChannel = () => {
     const { toggleModalNewChannel } = this.props;

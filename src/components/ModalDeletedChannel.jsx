@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import { connect } from 'react-redux';
+import connect from '../connect';
 import * as actions from '../actions';
 
 const mapStateToProps = ({ uiDeletedChannel, deletedChannelId }) => ({
@@ -8,12 +8,7 @@ const mapStateToProps = ({ uiDeletedChannel, deletedChannelId }) => ({
   deletedChannelId,
 });
 
-const actionCreators = {
-  toggleModalDeleteChannel: actions.toggleModalDeleteChannel,
-  deleteChannel: actions.deleteChannel,
-};
-
-@connect(mapStateToProps, actionCreators)
+@connect(mapStateToProps)
 class ModalDeletedChannel extends React.Component {
   handleToggleModalDeleteChannel = () => {
     const { toggleModalDeleteChannel } = this.props;

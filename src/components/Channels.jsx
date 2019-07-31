@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Button, Col, ButtonGroup,
 } from 'react-bootstrap';
-import { connect } from 'react-redux';
+import connect from '../connect';
 import * as actions from '../actions';
 
 const mapStateToProps = (state) => {
@@ -13,14 +13,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const actionCreators = {
-  changeCurrentChannel: actions.changeCurrentChannel,
-  toggleModalNewChannel: actions.toggleModalNewChannel,
-  toggleModalRenameChannel: actions.toggleModalRenameChannel,
-  toggleModalDeleteChannel: actions.toggleModalDeleteChannel,
-};
-
-@connect(mapStateToProps, actionCreators)
+@connect(mapStateToProps)
 class Channels extends React.Component {
   handleChangeChannel = id => () => {
     const { changeCurrentChannel } = this.props;
