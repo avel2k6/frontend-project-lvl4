@@ -8,27 +8,40 @@ const messages = handleActions({
   [actions.initChat](state, { payload: gon }) {
     const { messages: initMessages } = gon;
     return {
-      byId: initMessages.reduce((acc, mes) => ({ ...acc, [mes.id]: mes }), {}),
+      byId: _.keyBy(initMessages, ({ id }) => id),
       allIds: [...initMessages.map(({ id }) => id)],
     };
   },
   [actions.addMessageSuccess]({ byId, allIds }, { payload: message }) {
-    if (allIds.includes(message.id)) { return { byId, allIds }; }
     return {
       byId: { ...byId, [message.id]: message },
       allIds: [...allIds, message.id],
     };
   },
   [actions.deleteChannelSuccess](state, { payload: channel }) {
-    if (!channel) {
-      return state;
-    }
     const { byId } = state;
     const { id } = channel;
     const newById = _.omitBy(byId, message => message.channelId === id);
     return {
       byId: newById,
-      allIds: Object.keys(newById),
+      allIds: Object.keys(newById).map(Number),
+    };
+  },
+  [actions.updateMessagesSuccess]({ byId }, { payload: messagesData }) {
+    const newMessagesById = messagesData.reduce(
+      (acc, data) => {
+        const { id, attributes } = data;
+        return {
+          ...acc,
+          [id]: attributes,
+        };
+      },
+      {},
+    );
+    const allMessages = { ...byId, ...newMessagesById };
+    return {
+      byId: allMessages,
+      allIds: Object.keys(allMessages).map(Number),
     };
   },
 },
@@ -38,12 +51,11 @@ const channels = handleActions({
   [actions.initChat](state, { payload: gon }) {
     const { channels: initChannels } = gon;
     return {
-      byId: initChannels.reduce((acc, ch) => ({ ...acc, [ch.id]: ch }), {}),
+      byId: _.keyBy(initChannels, ({ id }) => id),
       allIds: [...initChannels.map(({ id }) => id)],
     };
   },
   [actions.addChannelSuccess]({ byId, allIds }, { payload: { attributes: channel } }) {
-    if (allIds.includes(channel.id)) { return { byId, allIds }; }
     return {
       byId: { ...byId, [channel.id]: channel },
       allIds: [...allIds, channel.id],
@@ -57,9 +69,6 @@ const channels = handleActions({
     };
   },
   [actions.deleteChannelSuccess]({ byId, allIds }, { payload: channel }) {
-    if (!channel) {
-      return { byId, allIds };
-    }
     const { id } = channel;
     return {
       byId: _.omit(byId, id),
@@ -86,9 +95,8 @@ const uiNewChannel = handleActions(
 );
 
 const renamedChannelId = handleActions({
-  [actions.toggleModalRenameChannel](state, { payload: channelId }) {
-    return channelId || null;
-  },
+  [actions.toggleModalRenameChannel](state, { payload: channelId }) { return channelId || null; },
+  [actions.renameChannelSuccess]() { return null; },
 },
 null);
 
@@ -118,6 +126,20 @@ const uiDeletedChannel = handleActions(
   { modalWindow: false },
 );
 
+const errors = handleActions(
+  {
+    [actions.addWarning](state, { payload: error }) { return { ...state, warning: error }; },
+    [actions.addMessageSuccess](state) { return { ...state, warning: null }; },
+    [actions.addChannelSuccess](state) { return { ...state, warning: null }; },
+    [actions.appIsOffline](state) { return { ...state, offline: true }; },
+    [actions.updateMessagesSuccess](state) { return { ...state, offline: false }; },
+  },
+  {
+    warning: null,
+    offline: false,
+  },
+);
+
 export default combineReducers({
   messages,
   channels,
@@ -128,4 +150,5 @@ export default combineReducers({
   uiRenamedChannel,
   uiDeletedChannel,
   form: formReducer,
+  errors,
 });

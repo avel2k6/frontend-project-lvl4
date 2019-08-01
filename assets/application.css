@@ -1,8 +1,7 @@
 .fade.in {
   opacity: 1;
 }
-.stick-to-bottom {
-  position: absolute;
+.b-0 {
   bottom: 0;
 }
 .border-3 {
@@ -11,14 +10,6 @@
 .pointer {
   cursor: pointer;
 }
-.overflow-hidden {
-  overflow: hidden;
-}
-.chat-window {
-  max-height: 500px;
+.overflow-y-scroll {
   overflow-y: scroll;
-  margin-bottom: 100px;
-}
-.mh-75 {
-  min-height:75%;
 }

@@ -15,12 +15,14 @@ class ModalDeletedChannel extends React.Component {
   };
 
   handleDeleteChannel = () => {
-    const { deletedChannelId, deleteChannel } = this.props;
-    deleteChannel(
-      {
-        id: deletedChannelId,
-      },
-    );
+    const {
+      deletedChannelId, deleteChannel, deleteChannelFailure, addWarning,
+    } = this.props;
+    deleteChannel({ id: deletedChannelId })
+      .catch((e) => {
+        deleteChannelFailure();
+        addWarning(e);
+      });
   };
 
   render() {

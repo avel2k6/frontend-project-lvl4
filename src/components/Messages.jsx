@@ -19,8 +19,8 @@ class Messages extends React.Component {
     const channelID = `channel-${currentChannelId}`;
     return (
       <>
-        <div className="w-100 p-3">
-          <div className="chat-window" id={channelID}>
+        <div className="w-100 h-100 p-2 pb-5">
+          <div className="h-100 overflow-y-scroll pb-1" id={channelID}>
             {
             messages.map(mes => (
               <div key={mes.id}>

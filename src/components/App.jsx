@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Row, Col,
-} from 'react-bootstrap';
+import Alert from './Alert';
 import Channels from './Channels';
 import Messages from './Messages';
 import MessageForm from './MessageForm';
@@ -10,24 +8,25 @@ import ModalRenamedChannel from './ModalRenamedChannel';
 import ModalDeletedChannel from './ModalDeletedChannel';
 
 const App = () => (
-  <Row className="shadow-lg bg-white rounded h-75">
-    <Col className="col-4 bg-info text-light p-3 rounded-left">
+  <div className="fixed-top w-100 h-100 bg-white">
+    <div className="col-4 bg-info text-light p-3 h-100 d-inline-block align-top">
       <Channels />
-    </Col>
-    <Col className="col-8 bg-white rounded-right">
-      <div className="w-100">
-        <div className="w-100">
+    </div>
+    <div className="col-8 bg-white h-100 d-inline-block align-top">
+      <div className="w-100 h-100">
+        <div className="w-100 h-100">
           <Messages />
         </div>
-        <Row className="w-100 p-3 stick-to-bottom">
+        <div className="row w-100 p-2 position-absolute b-0">
           <MessageForm />
-        </Row>
+        </div>
       </div>
-    </Col>
+    </div>
     <ModalNewChannel />
     <ModalRenamedChannel />
     <ModalDeletedChannel />
-  </Row>
+    <Alert />
+  </div>
 );
 
 export default App;

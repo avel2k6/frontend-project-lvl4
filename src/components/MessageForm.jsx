@@ -2,7 +2,7 @@ import React from 'react';
 // import _ from 'lodash';
 import { Field, reduxForm } from 'redux-form';
 import connect from '../connect';
-import UsernameContext from './UsernameContext';
+import UsernameContext from '../context/UsernameContext';
 
 const mapStateToProps = (state) => {
   const props = {
@@ -15,15 +15,22 @@ const mapStateToProps = (state) => {
 @reduxForm({ form: 'newMessage' })
 @connect(mapStateToProps)
 class MessageForm extends React.Component {
-  // static contextType = UsernameContext;
   handleAddMessage = userName => ({ message }) => {
-    const { addMessage, currentChannelId, reset } = this.props;
-    addMessage({
+    const {
+      addMessage, currentChannelId, reset, addMessageFailure, addWarning,
+    } = this.props;
+    return addMessage({
       text: message,
       channelId: currentChannelId,
       user: userName,
-    });
-    reset();
+    })
+      .then(() => {
+        reset();
+      })
+      .catch((e) => {
+        addMessageFailure();
+        addWarning(e);
+      });
   };
 
   render() {
@@ -38,7 +45,7 @@ class MessageForm extends React.Component {
               <form className="form-inline" onSubmit={handleSubmit(this.handleAddMessage(userName))}>
                 <div className="overflow-hidden rounded border w-100 shadow-sm">
                   <Field name="message" className="form-control border-0 w-75" required disabled={submitting} component="input" type="text" />
-                  <input type="submit" disabled={pristine} className="btn btn-info rounded-0 w-25" value="Add" />
+                  <input type="submit" disabled={pristine || submitting} className="btn btn-info rounded-0 w-25" value="Add" />
                 </div>
               </form>
             )

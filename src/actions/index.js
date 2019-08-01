@@ -23,7 +23,7 @@ export const renameChannelSuccess = createAction('CHANNEL_RENAME_SUCCESS');
 export const renameChannelFailure = createAction('CHANNEL_RENAME_FAILURE');
 
 export const toggleModalDeleteChannel = createAction('TOGGLE_MODAL_DELETE_CHANNEL');
-export const deletehannelRequest = createAction('CHANNEL_DELETE_REQUEST');
+export const deleteChannelRequest = createAction('CHANNEL_DELETE_REQUEST');
 export const deleteChannelSuccess = createAction('CHANNEL_DELETE_SUCCESS');
 export const deleteChannelFailure = createAction('CHANNEL_DELETE_FAILURE');
 
@@ -31,6 +31,13 @@ export const deleteChannelFailure = createAction('CHANNEL_DELETE_FAILURE');
 export const addMessageRequest = createAction('MESSAGE_ADD_REQUEST');
 export const addMessageSuccess = createAction('MESSAGE_ADD_SUCCESS');
 export const addMessageFailure = createAction('MESSAGE_ADD_FAILURE');
+
+export const updateMessagesRequest = createAction('MESSAGES_UPDATE_REQUEST');
+export const updateMessagesSuccess = createAction('MESSAGES_UPDATE_SUCCESS');
+export const updateMessagesFailure = createAction('MESSAGES_UPDATE_FAILURE');
+
+export const addWarning = createAction('ADD_WARNING');
+export const appIsOffline = createAction('IS_OFFLINE');
 
 const retryOptions = {
   delay: 2000,
@@ -49,101 +56,72 @@ const retryOptions = {
 
 export const deleteChannel = ({ id }) => async (dispatch) => {
   const url = routes.channelPath(id);
-  dispatch(renameChannelRequest());
-  try {
-    const axiosOptions = {
-      method: 'DELETE',
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      params: { id },
-      url,
-    };
-    await retry(() => axios(axiosOptions), retryOptions);
-    dispatch(deleteChannelSuccess());
-  } catch (e) {
-    dispatch(deleteChannelFailure());
-    throw e;
-  }
+  dispatch(deleteChannelRequest());
+  return axios.delete(url, { params: { id } });
 };
-
-export const listenDeleteChannel = dispatch => io().on('removeChannel', ({ data }) => {
-  dispatch(deleteChannelSuccess(data));
-});
 
 export const renameChannel = ({ name, id }) => async (dispatch) => {
   const url = routes.channelPath(id);
   dispatch(renameChannelRequest());
   const preparedData = qs.stringify({ data: { attributes: { name } } });
-  try {
-    const axiosOptions = {
-      method: 'PATCH',
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      data: preparedData,
-      params: { id },
-      url,
-    };
-    const response = await retry(() => axios(axiosOptions), retryOptions);
-    const { data } = response;
-    dispatch(renameChannelSuccess(data));
-  } catch (e) {
-    dispatch(renameChannelFailure());
-    throw e;
-  }
+  return axios.patch(url, preparedData, { params: { id } });
 };
-
-export const listenRenameChannel = dispatch => io().on('renameChannel', ({ data: { attributes } }) => {
-  dispatch(renameChannelSuccess(attributes));
-});
 
 export const addChannel = channelName => async (dispatch) => {
   const url = routes.channelsPath();
   dispatch(addChannelRequest());
   const preparedData = qs.stringify({ data: { attributes: { name: channelName } } });
-  try {
-    const axiosOptions = {
-      method: 'POST',
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      data: preparedData,
-      url,
-    };
-    const response = await retry(() => axios(axiosOptions), retryOptions);
-    const { data: { data } } = response;
-    dispatch(addChannelSuccess(data));
-  } catch (e) {
-    dispatch(addChannelFailure());
-    throw e;
-  }
+  return axios.post(url, preparedData);
 };
-
-export const listenNewChannel = dispatch => io().on('newChannel', ({ data }) => {
-  dispatch(addChannelSuccess(data));
-});
 
 export const addMessage = message => async (dispatch) => {
   const { channelId } = message;
   const url = routes.channelMessagesPath(channelId);
   dispatch(addMessageRequest());
   const preparedData = qs.stringify({ data: { attributes: { ...message } } });
+  return axios.post(url, preparedData, { params: { channelId } });
+};
+
+export const updateMessages = ({ channelId }) => async (dispatch) => {
+  const url = routes.channelMessagesPath(channelId);
+  dispatch(updateMessagesRequest());
   try {
-    const axiosOptions = {
-      method: 'POST',
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      data: preparedData,
-      params: { channelId },
-      url,
-    };
-    const response = await retry(() => axios(axiosOptions), retryOptions);
-    const { data: { data: { attributes } } } = response;
-    dispatch(addMessageSuccess(attributes));
+    const response = await retry(() => axios.get(url), retryOptions);
+    const { data } = response;
+    dispatch(updateMessagesSuccess(data));
   } catch (e) {
-    dispatch(addMessageFailure());
-    throw e;
+    dispatch(updateMessagesFailure());
+    dispatch(addWarning(e));
   }
 };
 
-export const listenNewMessage = dispatch => io().on('newMessage', ({ data: { attributes } }) => {
-  dispatch(addMessageSuccess(attributes));
-  const channelId = `channel-${attributes.channel}`;
-  animateScroll.scrollToBottom({
-    containerId: channelId,
-  });
-});
+export const initListeners = (dispatch) => {
+  io()
+    .on('removeChannel', ({ data }) => {
+      dispatch(deleteChannelSuccess(data));
+    })
+    .on('renameChannel', ({ data: { attributes } }) => {
+      dispatch(renameChannelSuccess(attributes));
+    })
+    .on('newChannel', ({ data }) => {
+      dispatch(addChannelSuccess(data));
+    })
+    .on('newMessage', ({ data: { attributes } }) => {
+      dispatch(addMessageSuccess(attributes));
+      const channelId = `channel-${attributes.channelId}`;
+      animateScroll.scrollToBottom({
+        containerId: channelId,
+      });
+    });
+};
+
+export const checkConnect = () => async (dispatch) => {
+  const checkInterval = 10000;
+  setInterval(() => {
+    axios.head('/')
+      .catch(
+        () => dispatch(appIsOffline()),
+      );
+  },
+  checkInterval);
+};

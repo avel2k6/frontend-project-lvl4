@@ -6,11 +6,13 @@ import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, compose } from 'redux';
 import reducers from './reducers';
 import App from './components/App';
-import UsernameContext from './components/UsernameContext';
+import UsernameContext from './context/UsernameContext';
 
 
 import {
-  initChat, listenNewMessage, listenNewChannel, listenRenameChannel, listenDeleteChannel,
+  initChat,
+  initListeners,
+  checkConnect,
 } from './actions';
 
 /* eslint-disable no-underscore-dangle */
@@ -31,10 +33,7 @@ const store = createStore(
 
 export default (gon, userName) => {
   store.dispatch(initChat(gon));
-  listenNewMessage(store.dispatch);
-  listenNewChannel(store.dispatch);
-  listenRenameChannel(store.dispatch);
-  listenDeleteChannel(store.dispatch);
+  initListeners(store.dispatch, userName);
 
   render(
     <Provider store={store}>
@@ -44,4 +43,6 @@ export default (gon, userName) => {
     </Provider>,
     document.getElementById('chat'),
   );
+
+  checkConnect()(store.dispatch);
 };

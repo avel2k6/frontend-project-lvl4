@@ -27,13 +27,17 @@ class ModalRenamedChannel extends React.Component {
   };
 
   handleRenameChannel = ({ channelName }) => {
-    const { renameChannel, renamedChannelId } = this.props;
-    renameChannel(
-      {
-        name: channelName,
-        id: renamedChannelId,
-      },
-    );
+    const {
+      renameChannel, renamedChannelId, renameChannelFailure, addWarning,
+    } = this.props;
+    return renameChannel({
+      name: channelName,
+      id: renamedChannelId,
+    })
+      .catch((e) => {
+        renameChannelFailure();
+        addWarning(e);
+      });
   };
 
   render() {
@@ -56,7 +60,7 @@ class ModalRenamedChannel extends React.Component {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleToggleModalRenameChannel}>Close</Button>
-            <Button variant="info" disabled={pristine || sameNamesCount} type="submit">Save Changes</Button>
+            <Button variant="info" disabled={pristine || sameNamesCount || submitting} type="submit">Save Changes</Button>
           </Modal.Footer>
         </form>
       </Modal>
