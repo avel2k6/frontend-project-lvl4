@@ -15,6 +15,8 @@ const mapStateToProps = (state) => {
 @reduxForm({ form: 'newMessage' })
 @connect(mapStateToProps)
 class MessageForm extends React.Component {
+  static contextType = UsernameContext;
+
   handleAddMessage = userName => ({ message }) => {
     const {
       addMessage, currentChannelId, reset, addMessageFailure, addWarning,
@@ -37,20 +39,16 @@ class MessageForm extends React.Component {
     const {
       handleSubmit, submitting, pristine,
     } = this.props;
+    const userName = this.context;
+
     return (
       <div className="w-100">
-        <UsernameContext.Consumer>
-          {
-            userName => (
-              <form className="form-inline" onSubmit={handleSubmit(this.handleAddMessage(userName))}>
-                <div className="overflow-hidden rounded border w-100 shadow-sm">
-                  <Field name="message" className="form-control border-0 w-75" required disabled={submitting} component="input" type="text" />
-                  <input type="submit" disabled={pristine || submitting} className="btn btn-info rounded-0 w-25" value="Add" />
-                </div>
-              </form>
-            )
-          }
-        </UsernameContext.Consumer>
+        <form className="form-inline" onSubmit={handleSubmit(this.handleAddMessage(userName))}>
+          <div className="overflow-hidden rounded border w-100 shadow-sm">
+            <Field name="message" className="form-control border-0 w-75" required disabled={submitting} component="input" type="text" />
+            <input type="submit" disabled={pristine || submitting} className="btn btn-info rounded-0 w-25" value="Add" />
+          </div>
+        </form>
       </div>
     );
   }
