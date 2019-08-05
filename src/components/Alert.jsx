@@ -37,7 +37,7 @@ class Alert extends React.Component {
       : null;
 
     return (
-      <div className="container position-absolute p-1">
+      <div className="container fixed-top p-1">
         <div className="alert alert-danger shadow-sm" role="alert">
           Network ERROR!
           {messageErrorButton}
