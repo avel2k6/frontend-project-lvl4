@@ -57,21 +57,38 @@ const retryOptions = {
 export const deleteChannel = ({ id }) => async (dispatch) => {
   const url = routes.channelPath(id);
   dispatch(deleteChannelRequest());
-  return axios.delete(url, { params: { id } });
+  try {
+    await axios.delete(url, { params: { id } });
+  } catch (e) {
+    dispatch(deleteChannelFailure());
+    dispatch(addWarning(e));
+    throw new Error(e);
+  }
 };
 
 export const renameChannel = ({ name, id }) => async (dispatch) => {
   const url = routes.channelPath(id);
   dispatch(renameChannelRequest());
   const preparedData = qs.stringify({ data: { attributes: { name } } });
-  return axios.patch(url, preparedData, { params: { id } });
+  try {
+    await axios.patch(url, preparedData, { params: { id } });
+  } catch (e) {
+    renameChannelFailure();
+    addWarning(e);
+  }
 };
 
 export const addChannel = channelName => async (dispatch) => {
   const url = routes.channelsPath();
   dispatch(addChannelRequest());
   const preparedData = qs.stringify({ data: { attributes: { name: channelName } } });
-  return axios.post(url, preparedData);
+  try {
+    await axios.post(url, preparedData);
+  } catch (e) {
+    dispatch(addChannelFailure());
+    dispatch(addWarning(e));
+    throw new Error(e);
+  }
 };
 
 export const addMessage = message => async (dispatch) => {
@@ -79,7 +96,13 @@ export const addMessage = message => async (dispatch) => {
   const url = routes.channelMessagesPath(channelId);
   dispatch(addMessageRequest());
   const preparedData = qs.stringify({ data: { attributes: { ...message } } });
-  return axios.post(url, preparedData, { params: { channelId } });
+  try {
+    await axios.post(url, preparedData, { params: { channelId } });
+  } catch (e) {
+    dispatch(addMessageFailure());
+    dispatch(addWarning(e));
+    throw new Error(e);
+  }
 };
 
 export const updateMessages = ({ channelId }) => async (dispatch) => {

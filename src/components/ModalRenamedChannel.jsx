@@ -26,18 +26,14 @@ class ModalRenamedChannel extends React.Component {
     toggleModalRenameChannel();
   };
 
-  handleRenameChannel = ({ channelName }) => {
+  handleRenameChannel = async ({ channelName }) => {
     const {
-      renameChannel, renamedChannelId, renameChannelFailure, addWarning,
+      renameChannel, renamedChannelId,
     } = this.props;
-    return renameChannel({
+    await renameChannel({
       name: channelName,
       id: renamedChannelId,
-    })
-      .catch((e) => {
-        renameChannelFailure();
-        addWarning(e);
-      });
+    });
   };
 
   render() {

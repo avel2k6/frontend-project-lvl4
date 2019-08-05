@@ -16,16 +16,13 @@ class ModalNewChannel extends React.Component {
     toggleModalNewChannel();
   };
 
-  handleAddChannel = ({ channelName }) => {
+  handleAddChannel = async ({ channelName }) => {
     const {
-      addChannel, reset, addChannelFailure, addWarning,
+      addChannel, reset,
     } = this.props;
-    return addChannel(channelName)
-      .then(() => reset())
-      .catch((e) => {
-        addChannelFailure();
-        addWarning(e);
-      });
+
+    await addChannel(channelName);
+    reset();
   };
 
   render() {

@@ -106,6 +106,7 @@ const uiRenamedChannel = handleActions(
       const { modalWindow } = state;
       return { modalWindow: !modalWindow };
     },
+    [actions.renameChannelSuccess]() { return { modalWindow: false }; },
   },
   { modalWindow: false },
 );

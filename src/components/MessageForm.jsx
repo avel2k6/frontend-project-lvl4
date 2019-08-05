@@ -17,22 +17,17 @@ const mapStateToProps = (state) => {
 class MessageForm extends React.Component {
   static contextType = UsernameContext;
 
-  handleAddMessage = userName => ({ message }) => {
+  handleAddMessage = userName => async ({ message }) => {
     const {
-      addMessage, currentChannelId, reset, addMessageFailure, addWarning,
+      addMessage, currentChannelId, reset,
     } = this.props;
-    return addMessage({
+
+    await addMessage({
       text: message,
       channelId: currentChannelId,
       user: userName,
-    })
-      .then(() => {
-        reset();
-      })
-      .catch((e) => {
-        addMessageFailure();
-        addWarning(e);
-      });
+    });
+    reset();
   };
 
   render() {
